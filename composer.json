@@ -1,0 +1,11 @@
+{
+    "name": "rien/php-markdown",
+    "description": "Markdown lexer and formatter for PHP",
+    "authors": [
+        {
+            "name": "Rien Bijl",
+            "email": "helloitsrien@gmail.com"
+        }
+    ],
+    "require": {}
+}
