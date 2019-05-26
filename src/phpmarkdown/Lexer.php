@@ -23,7 +23,7 @@ class Lexer
      */
     public function __construct($rawContent)
     {
-        $this->$rawContent = $rawContent;
+        $this->rawContent = $rawContent;
     }
 
 }
