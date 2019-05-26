@@ -19,7 +19,7 @@ class Lexer
      *
      * Takes in the raw content and stores it in rawContent for later use
      *
-     * $param string rawContent
+     * $param string $rawContent The unparsed content for Lexer
      */
     public function __construct($rawContent)
     {
