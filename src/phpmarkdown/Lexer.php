@@ -2,6 +2,8 @@
 
 namespace PHPMarkdown;
 
+use PHPMarkdown\Tokens;
+
 
 /*
  * Lexer
@@ -12,7 +14,7 @@ class Lexer
 {
 
     private $rawContent;
-    private $parsedContent;
+    public $parsedContent;
 
     /*
      * Constructs the lexer
@@ -52,4 +54,22 @@ class Lexer
         }
     }
 
+    /*
+     * Run the lexer
+     *
+     * Locates and calls all the tokenizers
+     *
+     * @return null
+     */
+    public function run()
+    {
+        $computedResult = $this->rawContent;
+
+        // Tokenizers
+        $computedResult = new Tokens\HeadingToken($computedResult);
+
+
+        // Store result
+        $this->parsedContent = $computedResult;
+    }
 }
