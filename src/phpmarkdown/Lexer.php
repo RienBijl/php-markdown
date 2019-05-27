@@ -31,7 +31,7 @@ class Lexer
         {
             $rawContent = $this->sanitize($rawContent, $sanitizeWithTags);
         }
-        $this->rawContent = $rawContent;
+        $this->rawContent = explode("\n", $rawContent);
     }
 
     /*
@@ -63,10 +63,13 @@ class Lexer
      */
     public function run()
     {
-        $computedResult = $this->rawContent;
+        $computedResult = "";
 
-        // Tokenizers
-        $computedResult = new Tokens\HeadingToken($computedResult);
+        foreach($this->rawContent as $line)
+        {
+            // Tokenizers
+            $computedResult .= new Tokens\HeadingToken($line);
+        }
 
 
         // Store result
