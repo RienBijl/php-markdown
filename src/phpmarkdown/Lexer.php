@@ -27,11 +27,16 @@ class Lexer
      */
     public function __construct($rawContent, $sanitize = true, $sanitizeWithTags = false)
     {
+        if(!defined("PHP_MARKDOWN_LINE_SEPERATOR"))
+        {
+            define("PHP_MARKDOWN_LINE_SEPERATOR", "\n");
+        }
+
         if($sanitize)
         {
             $rawContent = $this->sanitize($rawContent, $sanitizeWithTags);
         }
-        $this->rawContent = explode("\n", $rawContent);
+        $this->rawContent = $rawContent;
     }
 
     /*
@@ -65,11 +70,7 @@ class Lexer
     {
         $computedResult = "";
 
-        foreach($this->rawContent as $line)
-        {
-            // Tokenizers
-            $computedResult .= new Tokens\HeadingToken($line);
-        }
+        $computedResult .= new Tokens\HeadingToken($this->rawContent);
 
 
         // Store result

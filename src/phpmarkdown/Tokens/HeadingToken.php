@@ -25,7 +25,12 @@ class HeadingToken extends Token
     public function __construct($string)
     {
         $this->original = $string;
-        $this->result = $this->tokenize($string);
+        $lines = explode(PHP_MARKDOWN_LINE_SEPERATOR, $string);
+
+        foreach($lines as $line)
+        {
+            $this->result .= $this->tokenize($line);
+        }
     }
 
     /*
@@ -37,11 +42,11 @@ class HeadingToken extends Token
      */
     public function __toString()
     {
-        if($this->result === null || empty($this->result))
+        if($this->result === null || empty($this->result)) // Error whilst parsing?
         {
-            return (String) $this->result;
+            return $this->returnOriginal(); // Return the original!
         } else {
-            return $this->returnOriginal();
+            return (String) $this->result; // Return the tokenized string!
         }
     }
 
@@ -56,48 +61,50 @@ class HeadingToken extends Token
      */
     protected function tokenize($string)
     {
-        $characters = str_split($string);
-        $hashtags = 0;
+        $characters = str_split($string); // Split the string into loose chars
+        $hashtags = 0; // A hashtag signifies a heading, the amount of hashtags the weight
 
-        foreach($characters as $char)
+        foreach($characters as $char) // Loop through all characters
         {
-            if($char === '#')
+            if($char === '#') // Is it a hashtag?
             {
-                $hashtags++;
+                $hashtags++; // Add a number to the hashtaglist, to calculate weight later on
             } else {
-                break;
+                break; // No more hashtags? Stop looping for efficiency.
             }
         }
 
-        $unSyntaxedString = substr($string, (int) $hashtags, strlen($string));
-        $unSyntaxedString = parent::purify($unSyntaxedString);
+        $unSyntaxedString = substr($string, (int) $hashtags, strlen($string)); // Remove the hashtags from the string
+        $unSyntaxedString = parent::purify($unSyntaxedString); // Purify the string, to remove excessive whitespacing
 
-        switch($hashtags)
+        $syntaxedString = ""; // This will be our string with syntax
+
+        switch($hashtags) // Now we determine the weight
         {
             case 1:
-                $unSyntaxedString = '<h1>' .$unSyntaxedString .'</h1>';
+                $syntaxedString = '<h1>' .$unSyntaxedString .'</h1>'; // HEADING 1
                 break;
             case 2:
-                $unSyntaxedString = '<h2>' .$unSyntaxedString .'</h2>';
+                $syntaxedString = '<h2>' .$unSyntaxedString .'</h2>'; // HEADING 2
                 break;
             case 3:
-                $unSyntaxedString = '<h3>' .$unSyntaxedString .'</h3>';
+                $syntaxedString = '<h3>' .$unSyntaxedString .'</h3>'; // HEADING 3
                 break;
             case 4:
-                $unSyntaxedString = '<h4>' .$unSyntaxedString .'</h4>';
+                $syntaxedString = '<h4>' .$unSyntaxedString .'</h4>'; // HEADING 4
                 break;
             case 5:
-                $unSyntaxedString = '<h5>' .$unSyntaxedString .'</h5>';
+                $syntaxedString = '<h5>' .$unSyntaxedString .'</h5>'; // HEADING 5
                 break;
             case 6:
-                $unSyntaxedString = '<h6>' .$unSyntaxedString .'</h6>';
+                $syntaxedString = '<h6>' .$unSyntaxedString .'</h6>'; // HEADING 6
                 break;
             default:
-                $unSyntaxedString = "";
+                $syntaxedString = $string; // Do nothing, hashtags are meaningless
                 break;
         }
 
-        return $unSyntaxedString;
+        return $syntaxedString; // Return the string
     }
 
     /*
