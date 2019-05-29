@@ -71,7 +71,8 @@ class Lexer
         $computedResult = "";
 
         $computedResult .= new Tokens\HeadingToken($this->rawContent);
-
+        $computedResult .= new Tokens\ParagraphToken($this->rawContent);
+        $computedResult .= new Tokens\LinebreakToken($this->rawContent);
 
         // Store result
         $this->parsedContent = $computedResult;
