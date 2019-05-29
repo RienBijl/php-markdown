@@ -77,34 +77,38 @@ class HeadingToken extends Token
         $unSyntaxedString = substr($string, (int) $hashtags, strlen($string)); // Remove the hashtags from the string
         $unSyntaxedString = parent::purify($unSyntaxedString); // Purify the string, to remove excessive whitespacing
 
-        $syntaxedString = ""; // This will be our string with syntax
+        return $this->applyHeadings($hashtags, $unSyntaxedString);
+    }
 
-        switch($hashtags) // Now we determine the weight
+    /*
+     * applyHeadings
+     *
+     * Transforms the amount of hashtags into correct HTMl syntax
+     *
+     * @param int $heading the heading weight
+     * @param int $text the text the header should be applied to
+     *
+     * @return string|null
+     */
+    protected function applyHeadings($heading, $text)
+    {
+        switch($heading) // Now we determine the weight
         {
             case 1:
-                $syntaxedString = '<h1>' .$unSyntaxedString .'</h1>'; // HEADING 1
-                break;
+                return '<h1>' .$text .'</h1>'; // HEADING 1
             case 2:
-                $syntaxedString = '<h2>' .$unSyntaxedString .'</h2>'; // HEADING 2
-                break;
+                return '<h2>' .$text .'</h2>'; // HEADING 2
             case 3:
-                $syntaxedString = '<h3>' .$unSyntaxedString .'</h3>'; // HEADING 3
-                break;
+                return '<h3>' .$text .'</h3>'; // HEADING 3
             case 4:
-                $syntaxedString = '<h4>' .$unSyntaxedString .'</h4>'; // HEADING 4
-                break;
+                return '<h4>' .$text .'</h4>'; // HEADING 4
             case 5:
-                $syntaxedString = '<h5>' .$unSyntaxedString .'</h5>'; // HEADING 5
-                break;
+                return '<h5>' .$text .'</h5>'; // HEADING 5
             case 6:
-                $syntaxedString = '<h6>' .$unSyntaxedString .'</h6>'; // HEADING 6
-                break;
+                return '<h6>' .$text .'</h6>'; // HEADING 6
             default:
-                $syntaxedString = $string; // Do nothing, hashtags are meaningless
-                break;
+                return $text; // Do nothing, hashtags are meaningless
         }
-
-        return $syntaxedString; // Return the string
     }
 
     /*
