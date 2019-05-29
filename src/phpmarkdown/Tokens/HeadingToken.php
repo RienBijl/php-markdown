@@ -55,13 +55,13 @@ class HeadingToken extends Token
      *
      * Transform markdown headers to HTMl headers
      *
-     * @param string $string the line to be lexed
+     * @param string $line the line to be lexed
      *
      * @return void
      */
-    protected function tokenize($string)
+    protected function tokenize($line)
     {
-        $characters = str_split($string); // Split the string into loose chars
+        $characters = str_split($line); // Split the string into loose chars
         $hashtags = 0; // A hashtag signifies a heading, the amount of hashtags the weight
 
         foreach($characters as $char) // Loop through all characters
@@ -74,7 +74,7 @@ class HeadingToken extends Token
             }
         }
 
-        $unSyntaxedString = substr($string, (int) $hashtags, strlen($string)); // Remove the hashtags from the string
+        $unSyntaxedString = substr($line, (int) $hashtags, strlen($line)); // Remove the hashtags from the string
         $unSyntaxedString = parent::purify($unSyntaxedString); // Purify the string, to remove excessive whitespacing
 
         return $this->applyHeadings($hashtags, $unSyntaxedString);

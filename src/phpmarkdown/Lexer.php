@@ -21,9 +21,9 @@ class Lexer
      *
      * Takes in the raw content and stores it in rawContent for later use
      *
-     * $param string $rawContent The unparsed content for Lexer
-     * $param boolean $sanitize Should the string be sanitized
-     * $param boolean $sanitizeWithTags Should we strip tags from the string, only works if sanitized
+     * @param string $rawContent The unparsed content for Lexer
+     * @param boolean $sanitize Should the string be sanitized
+     * @param boolean $sanitizeWithTags Should we strip tags from the string, only works if sanitized
      */
     public function __construct($rawContent, $sanitize = true, $sanitizeWithTags = false)
     {
@@ -44,8 +44,8 @@ class Lexer
      *
      * Takes in the unsanitized string and sanitizes it
      *
-     * $param string $unsanitized The unsantized string
-     * $param boolean $stripTags Should we strip HTML tags?
+     * @param string $unsanitized The unsantized string
+     * @param boolean $stripTags Should we strip HTML tags?
      *
      * @return string The sanitized string
     */

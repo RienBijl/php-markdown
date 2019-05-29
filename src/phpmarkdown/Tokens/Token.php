@@ -15,7 +15,7 @@ abstract class Token
      *
      * Calls the tokenizer and contstructs the class
      *
-     * $param string $string The string to be tokenized
+     * @param string $string The string to be tokenized
      *
      */
     public abstract function __construct($string);
